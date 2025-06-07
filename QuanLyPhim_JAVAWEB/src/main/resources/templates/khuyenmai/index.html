@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Trang chủ</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link th:href="@{/css/style.css}" rel="stylesheet">
+</head>
+<body>
+<div class="container my-4">
+  <div class="row">
+    <h2 class="mb-3">Đón Khởi Nghỉ Hè – Ưu Đãi Đã Ghê</h2>
+    <div class="col-md-3" th:each="promo : ${promotions}">
+      <div class="card mb-3">
+        <img th:src="@{|/images/${promo.image}|}" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h6 class="card-title" th:text="${promo.title}"></h6>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-5">
+    <h2 class="mb-3">Tin Bên Lề</h2>
+    <div class="col-md-4" th:each="news : ${newsList}">
+      <div class="card mb-3">
+        <img th:src="@{|/images/${news.image}|}" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h6 class="card-title" th:text="${news.title}"></h6>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
