@@ -533,20 +533,16 @@
     });
 </script>
 <script>
+    // Chức năng tìm kiếm client-side
     document.getElementById('searchButton').addEventListener('click', function () {
-        const keyword = document.getElementById('searchInput').value.toLowerCase();
-        const movieCards = document.querySelectorAll('.movie-card');
+        const keyword = document.getElementById('searchInput').value.toLowerCase().trim();
+        const rapCards = document.querySelectorAll('.movie-card');
 
-        movieCards.forEach(card => {
-            const titleElement = card.querySelector('.movie-title');
-            if (!titleElement) return;
-
-            const title = titleElement.textContent.toLowerCase();
-            if (title.includes(keyword)) {
-                card.style.display = 'block'; // Hiện nếu khớp
-            } else {
-                card.style.display = 'none';  // Ẩn nếu không khớp
-            }
+        rapCards.forEach(card => {
+            const tenRapElement = card.querySelector('p:nth-child(2) span');
+            if (!tenRapElement) return;
+            const tenRap = tenRapElement.textContent.toLowerCase();
+            card.style.display = tenRap.includes(keyword) ? 'block' : 'none';
         });
     });
 </script>
