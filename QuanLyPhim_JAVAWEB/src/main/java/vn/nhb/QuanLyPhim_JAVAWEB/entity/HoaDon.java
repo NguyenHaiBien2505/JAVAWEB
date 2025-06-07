@@ -1,7 +1,9 @@
 package vn.nhb.QuanLyPhim_JAVAWEB.entity;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.math.BigDecimal;
-import java.sql.Date;
+import java.util.Date;
 
 public class HoaDon {
 
@@ -18,7 +20,7 @@ public class HoaDon {
     private String sdt;
 
     private String email;
-
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date ngayDat;
 
     private KhuyenMai maKM;
