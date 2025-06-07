@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+        <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
-    <meta charset="utf-8">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-
-    <title>Dashboard - Movie Theater ticket booking</title>
+    <meta charset="UTF-8">
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <title>Dashboard - Movie Theater ticket booking</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
@@ -365,11 +364,11 @@
 
 
 <div class="main-content">
-    <h3 class="text-center" style="color: #0a53be">QUẢN LÝ RẠP</h3>
+    <h3 class="text-center" style="color: #0a53be">QUẢN LÝ TÀI KHOẢN</h3>
     <div class="container py-4">
         <div class="search-bar row mb-3 align-items-center">
             <div class="col-md-6 mb-2">
-                <input type="text" class="form-control" placeholder="Nhập tên rạp" id="searchInput">
+                <input type="text" class="form-control" placeholder="Nhập tên tài khoản" id="searchInput">
             </div>
             <div class="col-auto mb-2">
                 <button class="btn btn-primary" id="searchButton">Tìm kiếm</button>
@@ -379,50 +378,78 @@
             </div>
         </div>
 
-        <!-- Danh sách rạp -->
-        <!-- Danh sách rạp -->
-        <div th:each="rap : ${rapList}" class="movie-card row">
-            <div class="col-md-12 movie-info">
-                <p><strong>Mã rạp:</strong> <span th:text="${rap.maRap}"></span></p>
-                <p><strong>Tên rạp:</strong> <span th:text="${rap.tenRap}"></span></p>
-                <p><strong>Địa chỉ:</strong> <span th:text="${rap.diaChi}"></span></p>
-                <p><strong>SĐT:</strong> <span th:text="${rap.sdt}"></span></p>
-                <p><strong>Mô tả:</strong> <span th:text="${rap.moTa}"></span></p>
-                <div class="action-buttons">
-                    <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal"
-                            th:attr="data-id=${rap.maRap},data-tenrap=${rap.tenRap},data-diachi=${rap.diaChi},data-sdt=${rap.sdt},data-mota=${rap.moTa}">Chỉnh sửa</button>
-                    <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal"
-                            th:attr="data-id=${rap.maRap}">Xóa</button>
-                </div>
-            </div>
+        <!-- Danh sách tài khoản (dạng bảng) -->
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead class="table-primary text-center">
+                <tr>
+                    <th>Mã TK</th>
+                    <th>Tên tài khoản</th>
+                    <th>Email</th>
+                    <th>SĐT</th>
+                    <th>Ngày sinh</th>
+                    <th>Vai trò</th>
+                    <th>Hành động</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="tk : ${taiKhoanList}">
+                    <td th:text="${tk.maTK}"></td>
+                    <td th:text="${tk.tenTK}"></td>
+                    <td th:text="${tk.email}"></td>
+                    <td th:text="${tk.sdt}"></td>
+                    <td th:text="${#dates.format(tk.ngaySinh, 'yyyy-MM-dd')}"></td>
+                    <td th:text="${tk.vaiTro}"></td>
+                    <td class="text-center">
+                        <button class="btn btn-warning btn-sm mb-1" data-bs-toggle="modal" data-bs-target="#editModal"
+                                th:attr="data-id=${tk.maTK},data-tentk=${tk.tenTK},data-matkhau=${tk.matKhau},
+                        data-email=${tk.email},data-sdt=${tk.sdt},data-ngaysinh=${#dates.format(tk.ngaySinh, 'yyyy-MM-dd')},
+                        data-vaitro=${tk.vaiTro}">
+                            Chỉnh sửa
+                        </button>
+
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
 
-        <!-- Modal thêm rạp -->
+
+        <!-- Modal thêm tài khoản -->
         <div class="modal fade" id="addModal" tabindex="-1">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Thêm mới rạp</h5>
+                        <h5 class="modal-title">Thêm mới tài khoản</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
-                    <form th:action="@{/rap/add}" method="post">
+                    <form th:action="@{/taikhoan/add}" method="post">
                         <div class="modal-body">
                             <div class="mb-3">
-                                <label>Tên rạp</label>
-                                <input type="text" class="form-control" name="tenRap" required>
+                                <label>Tên tài khoản</label>
+                                <input type="text" class="form-control" name="tenTK" required>
                             </div>
                             <div class="mb-3">
-                                <label>Địa chỉ</label>
-                                <input type="text" class="form-control" name="diaChi" required>
+                                <label>Mật khẩu</label>
+                                <input type="password" class="form-control" name="matKhau" required>
+                            </div>
+                            <div class="mb-3">
+                                <label>Email</label>
+                                <input type="email" class="form-control" name="email">
                             </div>
                             <div class="mb-3">
                                 <label>Số điện thoại</label>
                                 <input type="text" class="form-control" name="sdt">
                             </div>
                             <div class="mb-3">
-                                <label>Mô tả</label>
-                                <textarea class="form-control" name="moTa"></textarea>
+                                <label>Ngày sinh</label>
+                                <input type="date" class="form-control" name="ngaySinh">
                             </div>
+                            <div class="mb-3">
+                                <label>Vai trò</label>
+                                <input type="text" class="form-control" name="vaiTro">
+                            </div>
+
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
@@ -433,33 +460,42 @@
             </div>
         </div>
 
-        <!-- Modal chỉnh sửa rạp -->
+        <!-- Modal chỉnh sửa tài khoản -->
         <div class="modal fade" id="editModal" tabindex="-1">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Chỉnh sửa rạp</h5>
+                        <h5 class="modal-title">Chỉnh sửa tài khoản</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
-                    <form th:action="@{/rap/update}" method="post">
+                    <form th:action="@{/taikhoan/update}" method="post">
                         <div class="modal-body">
-                            <input type="hidden" id="editMaRap" name="maRap">
+                            <input type="hidden" id="editMaTK" name="maTK">
                             <div class="mb-3">
-                                <label>Tên rạp</label>
-                                <input type="text" class="form-control" id="editTenRap" name="tenRap">
+                                <label>Tên tài khoản</label>
+                                <input type="text" class="form-control" id="editTenTK" name="tenTK">
                             </div>
                             <div class="mb-3">
-                                <label>Địa chỉ</label>
-                                <input type="text" class="form-control" id="editDiaChi" name="diaChi">
+                                <label>Mật khẩu</label>
+                                <input type="password" class="form-control" id="editMatKhau" name="matKhau">
                             </div>
                             <div class="mb-3">
-                                <label>Số điện thoại</label>
+                                <label>Email</label>
+                                <input type="email" class="form-control" id="editEmail" name="email">
+                            </div>
+                            <div class="mb-3">
+                                <label>SĐT</label>
                                 <input type="text" class="form-control" id="editSdt" name="sdt">
                             </div>
                             <div class="mb-3">
-                                <label>Mô tả</label>
-                                <textarea class="form-control" id="editMoTa" name="moTa"></textarea>
+                                <label>Ngày sinh</label>
+                                <input type="date" class="form-control" id="editNgaySinh" name="ngaySinh">
                             </div>
+                            <div class="mb-3">
+                                <label>Vai trò</label>
+                                <input type="text" class="form-control" id="editVaiTro" name="vaiTro">
+                            </div>
+
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
@@ -470,26 +506,48 @@
             </div>
         </div>
 
-        <!-- Modal xóa rạp -->
-        <div class="modal fade" id="deleteModal" tabindex="-1">
+        <!-- Modal ban -->
+        <div class="modal fade" id="banModal" tabindex="-1">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Xóa rạp</h5>
+                        <h5 class="modal-title">Ban tài khoản</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
-                    <form id="deleteForm" method="post">
+                    <form id="banForm" method="post">
                         <div class="modal-body">
-                            <p>Bạn có chắc chắn muốn xóa rạp này không?</p>
+                            <p>Bạn có chắc chắn muốn ban tài khoản này không?</p>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                            <button type="submit" class="btn btn-danger">Xóa</button>
+                            <button type="submit" class="btn btn-danger">Ban</button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
+
+        <!-- Modal unban -->
+        <div class="modal fade" id="unbanModal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Unban tài khoản</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <form id="unbanForm" method="post">
+                        <div class="modal-body">
+                            <p>Bạn có chắc chắn muốn unban tài khoản này không?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                            <button type="submit" class="btn btn-success">Unban</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
 <!-- Vendor JS Files -->
@@ -507,33 +565,46 @@
 <script>
     document.getElementById('editModal').addEventListener('show.bs.modal', function (event) {
         const button = event.relatedTarget;
-        document.getElementById('editMaRap').value = button.getAttribute('data-id');
-        document.getElementById('editTenRap').value = button.getAttribute('data-tenrap');
-        document.getElementById('editDiaChi').value = button.getAttribute('data-diachi');
+        document.getElementById('editMaTK').value = button.getAttribute('data-id');
+        document.getElementById('editTenTK').value = button.getAttribute('data-tentk');
+        document.getElementById('editMatKhau').value = button.getAttribute('data-matkhau');
+        document.getElementById('editEmail').value = button.getAttribute('data-email');
         document.getElementById('editSdt').value = button.getAttribute('data-sdt');
-        document.getElementById('editMoTa').value = button.getAttribute('data-mota');
-        document.getElementById('deleteForm').action = '/rap/delete/' + button.getAttribute('data-id');
+        document.getElementById('editNgaySinh').value = button.getAttribute('data-ngaysinh');
+        document.getElementById('editVaiTro').value = button.getAttribute('data-vaitro');
+        document.getElementById('editTrangThai').value = button.getAttribute('data-trangthai');
     });
 
-    document.getElementById('deleteModal').addEventListener('show.bs.modal', function (event) {
+    document.getElementById('banModal').addEventListener('show.bs.modal', function (event) {
         const button = event.relatedTarget;
-        document.getElementById('deleteForm').action = '/rap/delete/' + button.getAttribute('data-id');
+        document.getElementById('banForm').action = '/taikhoan/ban/' + button.getAttribute('data-id');
     });
-</script>
-<script>
-    // Chức năng tìm kiếm client-side
-    document.getElementById('searchButton').addEventListener('click', function () {
-        const keyword = document.getElementById('searchInput').value.toLowerCase().trim();
-        const rapCards = document.querySelectorAll('.movie-card');
 
-        rapCards.forEach(card => {
-            const tenRapElement = card.querySelector('p:nth-child(2) span');
-            if (!tenRapElement) return;
-            const tenRap = tenRapElement.textContent.toLowerCase();
-            card.style.display = tenRap.includes(keyword) ? 'block' : 'none';
-        });
+    document.getElementById('unbanModal').addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+        document.getElementById('unbanForm').action = '/taikhoan/unban/' + button.getAttribute('data-id');
+    });
+
+        document.getElementById('searchButton').addEventListener('click', function () {
+        const keyword = document.getElementById('searchInput').value.toLowerCase().trim();
+        const rows = document.querySelectorAll('table tbody tr');
+
+        rows.forEach(row => {
+        // Lấy dữ liệu từ cột Tên tài khoản (index 1 trong bảng)
+        const tenTKElement = row.cells[1];
+        if (!tenTKElement) return;
+        const tenTK = tenTKElement.textContent.toLowerCase();
+        row.style.display = tenTK.includes(keyword) ? '' : 'none';
+    });
     });
 </script>
+
+</script>
+
+</body>
+</html></title>
+</head>
+<body>
 
 </body>
 </html>
