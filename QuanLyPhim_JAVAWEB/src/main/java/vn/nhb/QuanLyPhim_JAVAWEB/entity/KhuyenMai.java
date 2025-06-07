@@ -1,14 +1,16 @@
 package vn.nhb.QuanLyPhim_JAVAWEB.entity;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 public class KhuyenMai {
 	private int makm;
 	
 	private String tenKM;
-
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date ngayBD;
-	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date ngayKT;
 	
 	private Phim maPhim ;

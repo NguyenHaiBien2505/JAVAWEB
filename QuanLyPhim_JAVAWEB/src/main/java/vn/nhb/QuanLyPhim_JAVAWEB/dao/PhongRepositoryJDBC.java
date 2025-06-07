@@ -6,12 +6,14 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import vn.nhb.QuanLyPhim_JAVAWEB.entity.Phong;
 import vn.nhb.QuanLyPhim_JAVAWEB.entity.Rap;
+import vn.nhb.QuanLyPhim_JAVAWEB.service.RapService;
 
 import java.util.List;
 
 @Repository
 public class PhongRepositoryJDBC {
-
+    @Autowired
+    private RapService rapService;
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
@@ -24,8 +26,8 @@ public class PhongRepositoryJDBC {
 
         Rap rap = new Rap();
         rap.setMaRap(rs.getInt("ma_rap"));
+        rap = rapService.getRapById(rap.getMaRap()); // Ensure Rap is fully initialized
         phong.setMaRap(rap);
-
         return phong;
     };
 
